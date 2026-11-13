@@ -1,0 +1,1 @@
+# Sem dependências de runtime: a API usa apenas a biblioteca padrão do Python.
