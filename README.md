@@ -1,7 +1,8 @@
 # FollowBack
 
 ## Integrantes
-- (nomes completos do grupo)
+- Helena Diniz Faria
+- Nathálly Oliveira
 
 ## Sobre o sistema
 Aplicação web que recebe os arquivos `followers.json` e `following.json` exportados do Instagram e mostra quem você segue e não te segue de volta. Nenhum dado é armazenado.
