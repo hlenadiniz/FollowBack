@@ -18,5 +18,11 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements-dev.txt
-      - name: Testes unitários com cobertura (mínimo 80%)
-        run: pytest tests/unit --cov=followback --cov-report=term-missing --cov-fail-under=80
+      - name: Instalar Chromium e dependências do sistema
+        if: runner.os == 'Linux'
+        run: python -m playwright install --with-deps chromium
+      - name: Instalar Chromium
+        if: runner.os != 'Linux'
+        run: python -m playwright install chromium
+      - name: Testes unitários e e2e com cobertura mínima de 80%
+        run: pytest tests --cov=followback --cov-report=term-missing --cov-fail-under=80
