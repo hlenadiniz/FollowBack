@@ -12,10 +12,18 @@ class handler(BaseHTTPRequestHandler):
         try:
             size = int(self.headers.get("content-length", 0))
             body = json.loads(self.rfile.read(size))
-            status, payload = 200, analyze(body["followers"], body["following"])
-        except (KeyError, ValueError, TypeError, AttributeError):
-            status, payload = 400, {"error": "Arquivos inválidos"}
+            followers = body.get("followers_files", body.get("followers"))
+            if "followers_files" in body:
+                followers = {"files": followers}
+            status, payload = 200, analyze(followers, body["following"])
+        except ValueError as error:
+            status, payload = 400, {"error": str(error) or "Arquivos inválidos."}
+        except (KeyError, TypeError, AttributeError):
+            status, payload = 400, {
+                "error": "Arquivos inválidos. Confira os formatos selecionados."
+            }
         self.send_response(status)
-        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Cache-Control", "no-store")
         self.end_headers()
-        self.wfile.write(json.dumps(payload).encode())
+        self.wfile.write(json.dumps(payload).encode("utf-8"))

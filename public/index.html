@@ -1,21 +1,150 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FollowBack</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main>
-    <h1>FollowBack</h1>
-    <p>Descubra quem não te segue de volta no Instagram.</p>
-    <label>followers.json <input type="file" id="followers" accept=".json"></label>
-    <label>following.json <input type="file" id="following" accept=".json"></label>
-    <button id="analyze">Analisar</button>
-    <p id="status"></p>
-    <ul id="result"></ul>
-  </main>
-  <script src="app.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f8f6ff">
+    <meta
+      name="description"
+      content="Compare seus seguidores e quem você segue no Instagram com o FollowBack."
+    >
+    <title>FollowBack — descubra quem não segue você de volta</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="FollowBack, início">
+          <span class="brand-mark" aria-hidden="true">F</span>
+          <span>FollowBack</span>
+        </a>
+        <span class="privacy-pill">
+          <span class="privacy-dot" aria-hidden="true"></span>
+          Privado e sem armazenamento
+        </span>
+      </header>
+
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">SEU INSTAGRAM, SEM MISTÉRIO</p>
+        <h1 id="page-title">Quem não segue você <span>de volta?</span></h1>
+        <p class="hero-copy">
+          Compare sua lista de seguidores com a de quem você segue. A gente
+          organiza tudo para você, sem precisar compartilhar sua senha.
+        </p>
+      </section>
+
+      <section class="analyzer-card" aria-labelledby="upload-title">
+        <div class="section-heading">
+          <span class="step-number" aria-hidden="true">01</span>
+          <div>
+            <h2 id="upload-title">Adicione seus arquivos</h2>
+            <p>Use os arquivos JSON originais exportados do Instagram.</p>
+          </div>
+        </div>
+
+        <form id="analyzer-form" novalidate>
+          <div class="upload-grid">
+            <div class="upload-field">
+              <label class="upload-card" for="followers-files">
+                <span class="upload-icon followers-icon" aria-hidden="true">↓</span>
+                <span class="upload-title">Quem segue você</span>
+                <span class="upload-description">Arquivo de seguidores</span>
+                <span class="file-name" id="followers-name">Selecione todos os arquivos de seguidores</span>
+                <input
+                  class="file-input"
+                  type="file"
+                  id="followers-files"
+                  accept=".json,application/json"
+                  multiple
+                  aria-describedby="file-help"
+                  aria-required="true"
+                >
+              </label>
+            </div>
+            <div class="upload-field">
+              <label class="upload-card" for="following-json">
+                <span class="upload-icon following-icon" aria-hidden="true">↑</span>
+                <span class="upload-title">Quem você segue</span>
+                <span class="upload-description">Arquivo de seguindo</span>
+                <span class="file-name" id="following-name">Selecione following.json</span>
+                <input
+                  class="file-input"
+                  type="file"
+                  id="following-json"
+                  accept=".json,application/json"
+                  aria-describedby="file-help"
+                  aria-required="true"
+                >
+              </label>
+            </div>
+          </div>
+          <p class="file-help" id="file-help">
+            Selecione todos os arquivos <code>followers_*.json</code> se a exportação tiver mais de um.
+          </p>
+          <button class="analyze-button" id="analyze-button" type="submit">
+            <span>Analisar meus arquivos</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </form>
+
+        <p class="status-message" id="status" role="status" aria-live="polite" aria-atomic="true"></p>
+      </section>
+
+      <section class="results" id="results" aria-labelledby="results-title" hidden>
+        <div class="results-heading">
+          <div>
+            <p class="eyebrow">ANÁLISE CONCLUÍDA</p>
+            <h2 id="results-title">Seu resumo</h2>
+          </div>
+          <button class="reset-button" id="reset-button" type="button">Nova análise</button>
+        </div>
+        <div class="summary-grid" aria-label="Resumo das listas">
+          <article class="summary-card summary-highlight">
+            <span class="summary-count" id="not-following-count">0</span>
+            <span class="summary-label">não seguem você de volta</span>
+          </article>
+          <article class="summary-card">
+            <span class="summary-count" id="mutuals-count">0</span>
+            <span class="summary-label">seguem você de volta</span>
+          </article>
+          <article class="summary-card">
+            <span class="summary-count" id="fans-count">0</span>
+            <span class="summary-label">seguem você</span>
+          </article>
+        </div>
+        <div class="result-lists">
+          <section class="result-list-card" aria-labelledby="not-following-title">
+            <div class="list-heading">
+              <h3 id="not-following-title">Não seguem de volta</h3>
+              <span class="list-count" id="not-following-list-count">0</span>
+            </div>
+            <ul id="not-following-list"></ul>
+          </section>
+          <section class="result-list-card" aria-labelledby="mutuals-title">
+            <div class="list-heading">
+              <h3 id="mutuals-title">Conexões mútuas</h3>
+              <span class="list-count" id="mutuals-list-count">0</span>
+            </div>
+            <ul id="mutuals-list"></ul>
+          </section>
+          <section class="result-list-card" aria-labelledby="fans-title">
+            <div class="list-heading">
+              <h3 id="fans-title">Seguem você</h3>
+              <span class="list-count" id="fans-list-count">0</span>
+            </div>
+            <ul id="fans-list"></ul>
+          </section>
+        </div>
+        <p class="results-note">
+          Os nomes são clicáveis e abrem os perfis em uma nova aba.
+        </p>
+      </section>
+
+      <footer class="site-footer">
+        <span>Feito para cuidar melhor das suas conexões.</span>
+        <span>Seus arquivos não ficam armazenados.</span>
+      </footer>
+    </main>
+  </body>
 </html>

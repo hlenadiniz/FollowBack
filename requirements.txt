@@ -1,1 +1,1 @@
-# Sem dependências de runtime: a API usa apenas a biblioteca padrão do Python.
+# A API usa apenas a biblioteca padrão do Python; não há dependências de runtime.
