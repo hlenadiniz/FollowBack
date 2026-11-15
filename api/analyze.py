@@ -12,7 +12,10 @@ class handler(BaseHTTPRequestHandler):
         try:
             size = int(self.headers.get("content-length", 0))
             body = json.loads(self.rfile.read(size))
-            status, payload = 200, analyze(body["followers"], body["following"])
+            followers = body.get("followers_files", body.get("followers"))
+            if "followers_files" in body:
+                followers = {"files": followers}
+            status, payload = 200, analyze(followers, body["following"])
         except ValueError as error:
             status, payload = 400, {"error": str(error) or "Arquivos inválidos."}
         except (KeyError, TypeError, AttributeError):

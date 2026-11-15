@@ -39,39 +39,40 @@
           <span class="step-number" aria-hidden="true">01</span>
           <div>
             <h2 id="upload-title">Adicione seus arquivos</h2>
-            <p>Use os CSVs exportados do Instagram ou os arquivos JSON originais.</p>
+            <p>Use os arquivos JSON originais exportados do Instagram.</p>
           </div>
         </div>
 
         <form id="analyzer-form" novalidate>
           <div class="upload-grid">
             <div class="upload-field">
-              <label class="upload-card" for="followers-file">
+              <label class="upload-card" for="followers-files">
                 <span class="upload-icon followers-icon" aria-hidden="true">↓</span>
                 <span class="upload-title">Quem segue você</span>
                 <span class="upload-description">Arquivo de seguidores</span>
-                <span class="file-name" id="followers-name">Escolher arquivo CSV ou JSON</span>
+                <span class="file-name" id="followers-name">Selecione todos os arquivos de seguidores</span>
                 <input
                   class="file-input"
                   type="file"
-                  id="followers-file"
-                  accept=".csv,.json,text/csv,application/json"
+                  id="followers-files"
+                  accept=".json,application/json"
+                  multiple
                   aria-describedby="file-help"
                   aria-required="true"
                 >
               </label>
             </div>
             <div class="upload-field">
-              <label class="upload-card" for="following-file">
+              <label class="upload-card" for="following-json">
                 <span class="upload-icon following-icon" aria-hidden="true">↑</span>
                 <span class="upload-title">Quem você segue</span>
                 <span class="upload-description">Arquivo de seguindo</span>
-                <span class="file-name" id="following-name">Escolher arquivo CSV ou JSON</span>
+                <span class="file-name" id="following-name">Selecione following.json</span>
                 <input
                   class="file-input"
                   type="file"
-                  id="following-file"
-                  accept=".csv,.json,text/csv,application/json"
+                  id="following-json"
+                  accept=".json,application/json"
                   aria-describedby="file-help"
                   aria-required="true"
                 >
@@ -79,7 +80,7 @@
             </div>
           </div>
           <p class="file-help" id="file-help">
-            No CSV, use uma coluna <code>username</code> (ou uma lista de nomes de usuário).
+            Selecione todos os arquivos <code>followers_*.json</code> se a exportação tiver mais de um.
           </p>
           <button class="analyze-button" id="analyze-button" type="submit">
             <span>Analisar meus arquivos</span>

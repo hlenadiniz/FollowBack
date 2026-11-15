@@ -59,9 +59,14 @@ def _extract_csv_usernames(data):
 
 
 def extract_followers(data):
-    """Extrai usernames de followers.json ou de um CSV de usernames."""
+    """Extrai usernames de um JSON de seguidores ou de vários arquivos do Instagram."""
     if isinstance(data, str):
         return _extract_csv_usernames(data)
+    if isinstance(data, dict) and "files" in data:
+        files = data["files"]
+        if not isinstance(files, list) or not files:
+            raise ValueError("Selecione ao menos um arquivo de seguidores.")
+        return set().union(*(extract_followers(file_data) for file_data in files))
     items = data if isinstance(data, list) else data.get("relationships_followers", [])
     return {
         entry["value"].strip().removeprefix("@").lower()

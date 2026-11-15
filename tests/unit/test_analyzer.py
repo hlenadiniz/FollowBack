@@ -19,6 +19,23 @@ def test_extract_followers_from_instagram_wrapper():
     assert extract_followers({"relationships_followers": _followers("ana")}) == {"ana"}
 
 
+def test_extract_followers_combines_all_split_instagram_files():
+    files = {
+        "files": [
+            _followers("ana", "bia"),
+            _followers("caio", "ana"),
+        ]
+    }
+
+    assert extract_followers(files) == {"ana", "bia", "caio"}
+
+
+@pytest.mark.parametrize("files", [[], "followers.json"])
+def test_extract_followers_rejects_invalid_split_files_collection(files):
+    with pytest.raises(ValueError, match="ao menos um arquivo"):
+        extract_followers({"files": files})
+
+
 def test_extract_followers_ignores_empty_values():
     data = [{"string_list_data": [{"value": ""}, {}, {"value": "ana"}]}]
     assert extract_followers(data) == {"ana"}

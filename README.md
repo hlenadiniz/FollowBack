@@ -9,11 +9,10 @@ e quem segue você. A aplicação não pede sua senha nem mantém os arquivos ar
 - Nathálly Oliveira
 
 ## Sobre o sistema
-Envie os CSVs de seguidores e de seguindo exportados do Instagram. Para CSVs, use uma coluna
-`username` (também são reconhecidos `user_name`, `handle`, `login` e cabeçalhos equivalentes
-em português) ou coloque um nome de usuário por linha. Os arquivos JSON originais do Instagram
-também são aceitos. O FollowBack mostra quem não segue você de volta, as conexões mútuas e
-quem segue você. Não é necessário informar a senha do Instagram.
+Envie os arquivos JSON de seguidores e de seguindo exportados do Instagram. Se a exportação
+dividir os seguidores em vários arquivos `followers_*.json`, selecione todos eles para que as
+listas sejam unificadas antes da comparação. O FollowBack mostra quem não segue você de volta,
+as conexões mútuas e quem segue você. Não é necessário informar a senha do Instagram.
 
 ## Tecnologias
 - Python para a comparação das listas e para a API serverless.
@@ -32,6 +31,9 @@ O repositório está estruturado para deploy na Vercel: a pasta `public/` conté
 e `api/analyze.py` é a função da API. Para publicar, importe o repositório em
 [vercel.com](https://vercel.com/), mantenha a raiz do projeto como diretório raiz e use as
 configurações padrão de build. A Vercel detecta os arquivos estáticos e a função Python.
+O runtime está fixado em Python 3.12 pelo arquivo `.python-version`. Para executar `vercel dev`
+localmente, instale Python 3.12 e confirme que `python3 --version` retorna essa versão; o CLI
+usa o Python disponível no `PATH` para executar a função local.
 
 ## Execução dos testes
 ```bash

@@ -1,14 +1,19 @@
 const form = document.getElementById("analyzer-form");
-const followersInput = document.getElementById("followers-file");
-const followingInput = document.getElementById("following-file");
+const followersInput = document.getElementById("followers-files");
+const followingInput = document.getElementById("following-json");
 const analyzeButton = document.getElementById("analyze-button");
 const statusMessage = document.getElementById("status");
 const results = document.getElementById("results");
 
 const updateFileName = (input, nameElement) => {
-  const file = input.files[0];
-  nameElement.textContent = file ? file.name : "Escolher arquivo CSV ou JSON";
-  input.closest(".upload-card").classList.toggle("is-selected", Boolean(file));
+  const files = Array.from(input.files);
+  const emptyLabel = input === followersInput
+    ? "Selecione todos os arquivos de seguidores"
+    : "Selecione following.json";
+  nameElement.textContent = files.length > 1
+    ? `${files.length} arquivos selecionados`
+    : files[0]?.name || emptyLabel;
+  input.closest(".upload-card").classList.toggle("is-selected", files.length > 0);
 };
 
 followersInput.addEventListener("change", () => {
@@ -21,14 +26,11 @@ followingInput.addEventListener("change", () => {
 
 const readFile = async (file) => {
   const content = await file.text();
-  if (file.name.toLowerCase().endsWith(".json")) {
-    try {
-      return JSON.parse(content);
-    } catch {
-      throw new Error(`O arquivo ${file.name} não contém um JSON válido.`);
-    }
+  try {
+    return JSON.parse(content);
+  } catch {
+    throw new Error(`O arquivo ${file.name} não contém um JSON válido.`);
   }
-  return content;
 };
 
 const renderUserList = (elementId, users, emptyMessage) => {
@@ -98,10 +100,10 @@ form.addEventListener("submit", async (event) => {
   results.hidden = true;
   statusMessage.classList.remove("is-error");
 
-  const followersFile = followersInput.files[0];
+  const followerFiles = Array.from(followersInput.files);
   const followingFile = followingInput.files[0];
-  if (!followersFile || !followingFile) {
-    statusMessage.textContent = "Selecione os dois arquivos para continuar.";
+  if (followerFiles.length === 0 || !followingFile) {
+    statusMessage.textContent = "Selecione os arquivos de seguidores e o arquivo following.json.";
     return;
   }
 
@@ -111,7 +113,7 @@ form.addEventListener("submit", async (event) => {
 
   try {
     const body = JSON.stringify({
-      followers: await readFile(followersFile),
+      followers_files: await Promise.all(followerFiles.map(readFile)),
       following: await readFile(followingFile),
     });
     const response = await fetch("/api/analyze", {
@@ -119,7 +121,18 @@ form.addEventListener("submit", async (event) => {
       headers: { "Content-Type": "application/json" },
       body,
     });
-    const data = await response.json();
+    const responseText = await response.text();
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      if (!response.ok) {
+        throw new Error(
+          `O servidor não conseguiu processar a análise (HTTP ${response.status}). Confira se a API está ativa e tente novamente.`,
+        );
+      }
+      throw new Error("O servidor retornou uma resposta inválida. Tente novamente.");
+    }
     if (!response.ok) {
       throw new Error(data.error || "Não foi possível analisar os arquivos.");
     }
