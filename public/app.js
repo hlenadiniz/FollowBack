@@ -7,9 +7,7 @@ const results = document.getElementById("results");
 
 const updateFileName = (input, nameElement) => {
   const files = Array.from(input.files);
-  const emptyLabel = input === followersInput
-    ? "Selecione todos os arquivos de seguidores"
-    : "Selecione following.json";
+  const emptyLabel = "Nenhum arquivo selecionado";
   nameElement.textContent = files.length > 1
     ? `${files.length} arquivos selecionados`
     : files[0]?.name || emptyLabel;
