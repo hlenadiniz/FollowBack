@@ -178,9 +178,14 @@ a:focus-visible,
   gap: 14px;
 }
 
+.upload-field {
+  display: flex;
+}
+
 .upload-card {
   display: flex;
-  min-height: 190px;
+  flex: 1;
+  min-height: 260px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -226,14 +231,58 @@ a:focus-visible,
 }
 
 .upload-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 750;
 }
 
+.upload-step {
+  margin-bottom: 14px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #f2effa;
+  color: var(--purple-dark);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.upload-filename {
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid #e6e1f3;
+  color: var(--purple-dark);
+  font-size: 13px;
+}
+
+.upload-button {
+  margin-top: 14px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  background: var(--purple);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.upload-card:hover .upload-button,
+.upload-card:focus-within .upload-button {
+  background: var(--purple-dark);
+}
+
+.upload-card.is-selected .upload-button {
+  background: #fff;
+  border: 1px solid #9c8aff;
+  color: var(--purple-dark);
+}
+
 .upload-description {
-  margin-top: 4px;
+  margin-top: 8px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .file-name {
@@ -416,23 +465,23 @@ code {
 
 .list-heading h3 {
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: -.01em;
 }
 
 .list-count {
-  min-width: 23px;
-  padding: 4px 6px;
+  min-width: 26px;
+  padding: 4px 8px;
   border-radius: 999px;
   background: #f2effa;
   color: #645a8b;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 750;
   text-align: center;
 }
 
 .result-list-card ul {
-  max-height: 220px;
+  max-height: min(70vh, 640px);
   margin: 0;
   overflow-y: auto;
   padding: 5px 0 0;
@@ -440,9 +489,9 @@ code {
 }
 
 .result-list-card li {
-  padding: 8px 0;
+  padding: 10px 0;
   border-bottom: 1px solid #f5f3f8;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .result-list-card li:last-child {
@@ -516,7 +565,7 @@ code {
   }
 
   .upload-card {
-    min-height: 150px;
+    min-height: 220px;
   }
 
   .summary-grid {
