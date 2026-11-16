@@ -25,4 +25,4 @@ jobs:
         if: runner.os != 'Linux'
         run: python -m playwright install chromium
       - name: Testes unitários e e2e com cobertura mínima de 80%
-        run: pytest tests --cov=followback --cov-report=term-missing --cov-fail-under=80
+        run: pytest tests --cov=followback --cov=api --cov-report=term-missing --cov-fail-under=80
