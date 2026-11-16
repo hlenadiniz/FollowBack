@@ -167,3 +167,28 @@ def test_analyze_always_returns_all_categories():
         "fans": [],
         "mutuals": [],
     }
+
+
+def test_extract_followers_combines_json_and_csv_files():
+    data = {"files": [[{"string_list_data": [{"value": "ana"}]}], "usuario\nbia"]}
+
+    assert extract_followers(data) == {"ana", "bia"}
+
+
+def test_analyze_treats_usernames_with_different_case_as_the_same_person():
+    followers = [{"string_list_data": [{"value": "Ana"}]}]
+    following = {"relationships_following": [{"title": "ana"}]}
+
+    result = analyze(followers, following)
+
+    assert result["mutuals"] == ["ana"]
+    assert result["not_following_back"] == []
+
+
+def test_analyze_with_nobody_followed_lists_everyone_as_follower_only():
+    followers = [{"string_list_data": [{"value": "ana"}]}]
+
+    result = analyze(followers, {"relationships_following": []})
+
+    assert result == {"not_following_back": [], "fans": ["ana"], "mutuals": []}
+
