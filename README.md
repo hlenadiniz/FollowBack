@@ -44,5 +44,5 @@ source .venv/bin/activate
 # .venv\Scripts\activate
 pip install -r requirements-dev.txt
 python -m playwright install chromium
-pytest tests --cov=followback --cov-report=term-missing --cov-fail-under=80
+pytest tests --cov=followback --cov=api --cov-report=term-missing --cov-fail-under=80
 ```
