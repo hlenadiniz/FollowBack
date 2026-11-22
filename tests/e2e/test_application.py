@@ -54,7 +54,7 @@ def test_json_upload_shows_non_followers_and_other_lists(page, app_url):
     )
 
 
-def test_instagram_json_upload_remains_supported(page, app_url):
+def test_split_followers_files_are_merged_before_comparison(page, app_url):
     page.goto(app_url)
     _upload(
         page,
@@ -177,6 +177,47 @@ def test_reset_clears_files_and_previous_results(page, app_url):
     expect(page.locator("#results")).to_be_hidden()
     expect(page.locator("#followers-files")).to_have_value("")
     expect(page.locator("#status")).to_be_empty()
+
+
+def test_everyone_following_back_shows_empty_state_message(page, app_url):
+    page.goto(app_url)
+    _upload(
+        page,
+        {
+            "name": "followers_1.json",
+            "mimeType": "application/json",
+            "buffer": b'[{"string_list_data":[{"value":"ana"}]}]',
+        },
+        {
+            "name": "following.json",
+            "mimeType": "application/json",
+            "buffer": b'{"relationships_following":[{"title":"ana"}]}',
+        },
+    )
+
+    expect(page.locator("#not-following-count")).to_have_text("0")
+    expect(page.locator("#not-following-list")).to_have_text(
+        "Boa! Todo mundo segue você de volta."
+    )
+    expect(page.get_by_role("status")).to_have_text(
+        "Análise pronta: todos os perfis que você segue também seguem você."
+    )
+
+
+def test_selected_file_names_are_shown_on_upload_cards(page, app_url):
+    page.goto(app_url)
+    page.locator("#followers-files").set_input_files(
+        [
+            {"name": "followers_1.json", "mimeType": "application/json", "buffer": b"[]"},
+            {"name": "followers_2.json", "mimeType": "application/json", "buffer": b"[]"},
+        ]
+    )
+    page.locator("#following-json").set_input_files(
+        {"name": "following.json", "mimeType": "application/json", "buffer": b"{}"}
+    )
+
+    expect(page.locator("#followers-name")).to_have_text("2 arquivos selecionados")
+    expect(page.locator("#following-name")).to_have_text("following.json")
 
 
 def test_upload_layout_fits_a_mobile_viewport(page, app_url):
