@@ -7,3 +7,5 @@ htmlcov/
 .vercel/
 .env
 .vercel
+.DS_Store
+*.zip

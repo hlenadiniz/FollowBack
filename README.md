@@ -7,6 +7,7 @@ e quem segue você. A aplicação não pede sua senha nem mantém os arquivos ar
 ## Integrantes
 - Helena Diniz Faria
 - Nathálly Oliveira
+- Clara Garcia Tavares
 
 ## Sobre o sistema
 Envie os arquivos JSON de seguidores e de seguindo exportados do Instagram. Se a exportação
@@ -36,6 +37,19 @@ localmente, instale Python 3.12 e confirme que `python3 --version` retorna essa 
 usa o Python disponível no `PATH` para executar a função local.
 
 ## Execução dos testes
+O projeto tem três tipos de verificação:
+
+- **Testes unitários** (`tests/unit/`, pytest): 64 casos cobrindo a extração de usernames
+  dos JSONs do Instagram e de CSVs, a comparação das listas e a API `api/analyze.py`.
+- **Testes end-to-end** (`tests/e2e/`, Playwright): 11 cenários no navegador, com upload
+  de arquivos, mensagens de erro, botão "Nova análise" e layout em tela de celular.
+- **Cobertura** (coverage.py via pytest-cov): mínimo exigido de 80%.
+
+O workflow `.github/workflows/tests.yml` roda tudo isso automaticamente a cada push e pull
+request, em Linux, macOS e Windows.
+
+Para rodar localmente:
+
 ```bash
 python -m venv .venv
 # Linux/macOS:
@@ -46,3 +60,5 @@ pip install -r requirements-dev.txt
 python -m playwright install chromium
 pytest tests --cov=followback --cov=api --cov-report=term-missing --cov-fail-under=80
 ```
+
+Para rodar só uma parte: `pytest tests/unit` (unitários) ou `pytest tests/e2e` (end-to-end).
