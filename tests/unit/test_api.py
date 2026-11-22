@@ -85,6 +85,36 @@ def test_api_rejects_body_that_is_not_json(post):
     assert payload["error"]
 
 
+def test_api_rejects_request_without_followers_file(post):
+    status, payload, _ = post({"following": _following("ana")})
+
+    assert status == 400
+    assert "inválidos" in payload["error"]
+
+
+def test_api_rejects_empty_followers_files_list(post):
+    status, payload, _ = post({"followers_files": [], "following": _following("ana")})
+
+    assert status == 400
+    assert "ao menos um arquivo" in payload["error"]
+
+
+def test_api_accepts_csv_lists(post):
+    status, payload, _ = post(
+        {"followers": "username\nana\nbia", "following": "username\nana\ncaio"}
+    )
+
+    assert status == 200
+    assert payload == {"not_following_back": ["caio"], "fans": ["bia"], "mutuals": ["ana"]}
+
+
+def test_api_error_responses_are_also_json_without_cache(post):
+    _, _, headers = post(b"{}")
+
+    assert headers["Content-Type"] == "application/json; charset=utf-8"
+    assert headers["Cache-Control"] == "no-store"
+
+
 def test_api_reports_which_csv_username_is_invalid(post):
     status, payload, _ = post({"followers": "usuario\nana souza", "following": "usuario\nana"})
 

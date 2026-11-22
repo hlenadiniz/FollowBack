@@ -129,6 +129,25 @@ def test_csv_rejects_empty_file(csv_content):
         extract_followers(csv_content)
 
 
+@pytest.mark.parametrize("csv_content", [",,\n,,\n", ";;\n"])
+def test_csv_rejects_file_with_only_empty_cells(csv_content):
+    with pytest.raises(ValueError, match="vazio"):
+        extract_followers(csv_content)
+
+
+@pytest.mark.parametrize("username", ["ana.souza_1", "a" * 30])
+def test_csv_accepts_valid_instagram_usernames(username):
+    assert extract_followers(f"username\n{username}\n") == {username}
+
+
+def test_csv_ignores_rows_missing_the_username_column():
+    assert extract_followers("perfil,username\nAna Souza\nBia Lima,bia\n") == {"bia"}
+
+
+def test_extract_following_accepts_csv():
+    assert extract_following("usuario\n@Caio\nbia\n") == {"caio", "bia"}
+
+
 @pytest.mark.parametrize("username", ["ana souza", "ana/bia", "muito" * 8])
 def test_csv_rejects_invalid_username(username):
     with pytest.raises(ValueError, match="Username inválido"):
