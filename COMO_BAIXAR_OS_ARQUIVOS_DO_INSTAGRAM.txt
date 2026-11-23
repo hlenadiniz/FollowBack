@@ -1,0 +1,107 @@
+COMO BAIXAR SEUS ARQUIVOS DE SEGUIDORES E SEGUINDO DO INSTAGRAM
+================================================================
+
+O FollowBack precisa de dois tipos de arquivo que o próprio Instagram
+gera para você:
+
+  - followers_1.json  (quem segue você; pode vir dividido em
+                       followers_1.json, followers_2.json, ...)
+  - following.json    (quem você segue)
+
+Você não precisa informar sua senha ao FollowBack. Os arquivos são
+pedidos direto no Instagram e ficam só com você.
+
+Observação: o Instagram muda os nomes dos menus de vez em quando, e
+algumas contas veem "Conta Meta" no lugar de "Central de Contas". Se
+algum nome estiver um pouco diferente, procure a opção mais parecida.
+
+
+PARTE 1 - PEDIR A EXPORTAÇÃO
+----------------------------
+
+Pelo celular (app do Instagram):
+
+  1. Abra o Instagram e vá até o seu perfil (foto no canto inferior
+     direito).
+  2. Toque no menu (☰) no canto superior direito.
+  3. Toque em "Central de Contas".
+  4. Toque em "Suas informações e permissões".
+  5. Toque em "Exportar suas informações".
+  6. Toque em "Criar exportação".
+  7. Escolha o seu perfil do Instagram.
+  8. Escolha "Exportar para o dispositivo".
+
+Pelo computador (instagram.com):
+
+  1. Entre em instagram.com com a sua conta.
+  2. Clique em "Mais" (☰), no canto inferior esquerdo, e depois em
+     "Configurações".
+  3. Clique em "Central de Contas".
+  4. Clique em "Suas informações e permissões".
+  5. Clique em "Exportar suas informações" e depois em
+     "Criar exportação".
+  6. Escolha o seu perfil do Instagram e "Exportar para o dispositivo".
+
+
+PARTE 2 - CONFIGURAR A EXPORTAÇÃO (MUITO IMPORTANTE)
+-----------------------------------------------------
+
+Antes de confirmar, ajuste estas três opções:
+
+  1. Informações: toque em "Personalizar informações", desmarque tudo
+     e deixe marcado apenas "Seguidores e seguindo".
+  2. Intervalo de datas: escolha "Desde o início" (todo o período).
+     Se escolher um período menor, as listas vêm incompletas e o
+     resultado fica errado.
+  3. Formato: escolha "JSON" (NÃO escolha HTML).
+
+Depois toque em "Iniciar exportação". Talvez o Instagram peça a sua
+senha para confirmar. Isso acontece dentro do próprio Instagram, não
+no FollowBack.
+
+
+PARTE 3 - BAIXAR O ARQUIVO
+--------------------------
+
+  1. Espere o aviso do Instagram (notificação ou e-mail). Costuma levar
+     de alguns minutos a algumas horas.
+  2. Volte em Central de Contas > Suas informações e permissões >
+     Exportar suas informações.
+  3. Na exportação pronta, toque em "Baixar". O arquivo é um .zip.
+     O link de download expira depois de alguns dias. Se expirar, é só
+     pedir de novo.
+
+
+PARTE 4 - ENCONTRAR OS ARQUIVOS JSON
+------------------------------------
+
+  1. Descompacte (extraia) o .zip.
+  2. Abra a pasta:
+         connections/followers_and_following/
+     (em algumas exportações, a pasta é só "followers_and_following/")
+  3. Lá estão os arquivos de que você precisa:
+         followers_1.json   (e, se existirem, followers_2.json,
+                             followers_3.json, ...)
+         following.json
+
+
+PARTE 5 - USAR NO FOLLOWBACK
+----------------------------
+
+  1. Acesse https://follow-back-rose.vercel.app/
+  2. No cartão "Seguidores", selecione o followers_1.json. Se houver
+     mais de um arquivo followers_*.json, selecione TODOS de uma vez.
+  3. No cartão "Seguindo", selecione o following.json.
+  4. Clique em "Analisar meus arquivos".
+
+
+PROBLEMAS COMUNS
+----------------
+
+  - "O arquivo ... não contém um JSON válido": você provavelmente
+    exportou em HTML. Peça a exportação de novo escolhendo "JSON".
+  - Não acha a pasta followers_and_following: confira se marcou
+    "Seguidores e seguindo" na Parte 2.
+  - Resultado estranho ou incompleto: confira se o intervalo de datas
+    era "Desde o início" e se você selecionou todos os arquivos
+    followers_*.json.
